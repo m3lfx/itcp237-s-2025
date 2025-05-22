@@ -61,4 +61,34 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('#customerModal').on('show.bs.modal', function(e) {
+        $("#cform").trigger("reset");
+        $('#customerId').remove()
+        // $('#image').remove()
+        console.log(e.relatedTarget)
+        var id = $(e.relatedTarget).attr('data-id');
+        console.log(id);
+       
+        $('<input>').attr({type: 'hidden', id:'customerId', name: 'customer_id', value: id}).appendTo('#cform');
+        $.ajax({
+            method: "GET",
+            url: `/api/customers/${id}`,
+            success: function(data){
+                   // console.log(data);
+                   $("#customerId").val(data.customer_id);
+                   $("#lname").val(data.lname);
+                   $("#fname").val(data.fname);
+                   $("#address").val(data.addressline);
+                   $("#zipcode").val(data.zipcode);
+                   $("#phone").val(data.phone); 
+                   $("#email").val(data.user.email);
+                //    $("#cform").appendTo(`<div><img src=" ${data.image_path}" width='200px', height='200px' id="image" /></div>`)
+              },
+             error: function(){
+              console.log('AJAX load did not work');
+              alert("error");
+              }
+          });
+    });
 })
