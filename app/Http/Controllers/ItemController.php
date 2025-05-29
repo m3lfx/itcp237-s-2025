@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Stock;
 use App\Models\Item;
 use App\Models\Customer;
+use App\Models\Order;
 use DB;
 use Storage;
+use Illuminate\Support\Carbon;
 
 class ItemController extends Controller
 {
@@ -139,10 +141,7 @@ class ItemController extends Controller
                 'code' => 409,
                 'error' => $e->getMessage(),
             ]);
-            return response()->json([
-                'status' => 'Order Failed',
-                'code' => 409,
-            ]);
+           
         }
         DB::commit();
 
