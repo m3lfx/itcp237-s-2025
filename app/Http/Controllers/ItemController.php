@@ -62,11 +62,11 @@ class ItemController extends Controller
     public function update(Request $request, string $id)
     {
         $item = Item::find($id);
-        
+
         $item->description = $request->description;
         $item->sell_price = $request->sell_price;
         $item->cost_price = $request->cost_price;
-       
+
         $files = $request->file('uploads');
         $item->image = 'storage/images/' . $files->getClientOriginalName();
         $item->save();
@@ -85,7 +85,7 @@ class ItemController extends Controller
      */
     public function destroy(string $id)
     {
-       if (Item::find($id)) {
+        if (Item::find($id)) {
             Stock::destroy($id);
             Item::destroy($id);
             $data = array('success' => 'item deleted', 'code' => 200);
@@ -102,6 +102,8 @@ class ItemController extends Controller
         // $items = json_decode($request->getContent(), true);
         // dd($items);
         $items = $request->all();
+        // dd($items);
+        // return response()->json($items);
         try {
 
             DB::beginTransaction();
@@ -122,17 +124,24 @@ class ItemController extends Controller
             // dd($customer->orders());
             foreach ($items as $item) {
                 // $id = $item['item_id'];
-                $order
-                    ->items()
-                    ->attach($order->orderinfo_id, [
+                dump($order->orderinfo_id);
+                DB::table('orderline')->insert([
+                    'orderinfo_id' => $order->orderinfo_id,
                         'quantity' => $item['quantity'],
                         'item_id' => $item['item_id'],
-                    ]);
+                ]);
+                // $order
+                //     ->items()
+                //     ->attach($order->orderinfo_id, [
+                //         'quantity' => $item['quantity'],
+                //         'item_id' => $item['item_id'],
+                //     ]);
 
                 $stock = Stock::find($item['item_id']);
                 $stock->quantity = $stock->quantity - $item['quantity'];
                 $stock->save();
             }
+            DB::commit();
             // dd($order);
         } catch (\Exception $e) {
             // dd($e);
@@ -142,9 +151,8 @@ class ItemController extends Controller
                 'code' => 409,
                 'error' => $e->getMessage(),
             ]);
-           
         }
-        DB::commit();
+
 
         return response()->json([
             'status' => 'Order Success',
