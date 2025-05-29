@@ -61,57 +61,58 @@ $(document).ready(function () {
     });
 
     $('#emptyCart').click(function () {
-		itemCount = 0;
-		priceTotal = 0;
+        itemCount = 0;
+        priceTotal = 0;
 
-		$('#itemCount').css('display', 'none');
-		$('#cartItems').text('');
-		$('#cartTotal').text("Total: php" + priceTotal);
-	});
+        $('#itemCount').css('display', 'none');
+        $('#cartItems').text('');
+        $('#cartTotal').text("Total: php" + priceTotal);
+    });
 
-     $('#checkout').click(function () {
-		itemCount = 0;
-		priceTotal = 0;
-	
-		let items = new Array();
-		$("#cartItems").find(".itemDetails").each(function (i, element) {
-			let itemid = 0;
-			let qty = 0;
-			qty = parseInt($(element).find($(".qty")).val());
-			itemid = parseInt($(element).find($(".itemId")).html());
-			items.push(
-				{
-					item_id: itemid,
-					quantity: qty
-				}
-			);
-		});
-		console.log(items)
-		// console.log(JSON.stringify(items));
-		// var data = JSON.stringify(items);
+    $('#checkout').click(function () {
+        itemCount = 0;
+        priceTotal = 0;
 
-		$.ajax({
-			type: "POST",
-			url: "/api/items/checkout",
-			data: items,
-			
-			dataType: "json",
-			processData: false,
-			contentType: 'application/json; charset=utf-8',
-			success: function (data) {
-				console.log(data);
-				alert(data.status);
-			},
-			error: function (error) {
-				alert(data.status);
-			}
-		});
-		$('#itemCount').css('display', 'none');
-		$('#cartItems').text('');
-		$('#cartTotal').text("Total: php" + priceTotal);
-		$('#shoppingCart').hide();
+        let items = new Array();
+        $("#cartItems").find(".itemDetails").each(function (i, element) {
+            let itemid = 0;
+            let qty = 0;
+            qty = parseInt($(element).find($(".qty")).val());
+            itemid = parseInt($(element).find($(".itemId")).html());
+            items.push(
+                {
+                    item_id: itemid,
+                    quantity: qty
+                }
+            );
+        });
+        console.log(items)
+        console.log(JSON.stringify(items));
+        // var data = JSON.stringify(items);
 
-		// console.log(clone.find(".itemDetails"));
+        $.ajax({
+            type: "POST",
+            url: "/api/items/checkout",
+            data: JSON.stringify(items),
 
-	});
+            dataType: "json",
+            processData: false,
+            contentType: 'application/json; charset=utf-8',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            success: function (data) {
+                console.log(data);
+                alert(data.status);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+        $('#itemCount').css('display', 'none');
+        $('#cartItems').text('');
+        $('#cartTotal').text("Total: php" + priceTotal);
+        $('#shoppingCart').hide();
+
+        // console.log(clone.find(".itemDetails"));
+
+    });
 })
