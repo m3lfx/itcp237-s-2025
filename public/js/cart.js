@@ -56,7 +56,7 @@ $(document).ready(function () {
     });
 
     // Checkout event (example)
-   
+
     $('#checkoutBtn').on('click', function () {
 
         itemCount = 0;
@@ -76,23 +76,23 @@ $(document).ready(function () {
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             success: function (data) {
                 console.log(data);
-                alert(data.status);
+                // alert(data.status);
                 Swal.fire({
                     icon: "success",
-                    
+
                     text: data.status,
                     // position: 'bottom-right'
-                    
+
                 });
                 localStorage.removeItem('cart')
-                 renderCart();
+                renderCart();
 
             },
             error: function (error) {
                 console.log(error);
             }
         });
-       
+
     });
     renderCart();
 });
