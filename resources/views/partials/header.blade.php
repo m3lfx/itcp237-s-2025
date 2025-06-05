@@ -39,7 +39,7 @@
                         {{-- <a class="dropdown-item" href="{{ route('user.register') }}">Signup </a>
                         <a class="dropdown-item" href="{{ route('user.login') }}">Signin </a> --}}
                         <a class="dropdown-item" href="#">Signup </a>
-                        <a class="dropdown-item" href="#}">Signin </a>
+                        <a class="dropdown-item" href="/login">Signin </a>
                     @endif
                 </div>
     </div>
