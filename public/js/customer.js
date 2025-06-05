@@ -1,8 +1,13 @@
 $(document).ready(function () {
+    const access_token = localStorage.getItem('token')
+
     $.ajax({
         method: "GET",
         url: "/api/customers",
         dataType: 'json',
+        headers: {
+            "Authorization": "Bearer " + access_token
+        },
         success: function (data) {
             console.log(data);
             $.each(data, function (key, value) {

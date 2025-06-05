@@ -1,9 +1,12 @@
 $(document).ready(function () {
-   
+    const access_token = localStorage.getItem('token')
     $('#itable').DataTable({
         ajax: {
             url: "/api/items",
-            dataSrc: ""
+            dataSrc: "",
+            headers: {
+                "Authorization": "Bearer " + access_token 
+            },
         },
         dom: 'Bfrtip',
         buttons: [
@@ -27,14 +30,14 @@ $(document).ready(function () {
                 render: function (data, type, row) {
                     console.log(data.img_path)
                     // return `<img src="/storage/${data.img_path}"  width="50" height="60">`; 
-                    return `<img src=${data.image_path}  width="50" height="60">`;
+                    return `<img src=${data.image}  width="50" height="60">`;
                 }
             },
 
-            { data: 'item.description' },
-            { data: 'item.cost_price' },
-            { data: 'item.sell_price' },
-            { data: 'quantity' },
+            { data: 'description' },
+            { data: 'cost_price' },
+            { data: 'sell_price' },
+            { data: 'stock.quantity' },
             {
                 data: null,
                 render: function (data, type, row) {

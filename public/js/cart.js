@@ -7,6 +7,7 @@ const saveCart = (cart) => {
 }
 
 $(document).ready(function () {
+    const access_token = localStorage.getItem('token')
     function renderCart() {
         let cart = getCart();
         let html = '';
@@ -72,8 +73,14 @@ $(document).ready(function () {
 
             dataType: "json",
             processData: false,
+            headers: {
+
+            },
             contentType: 'application/json; charset=utf-8',
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                "Authorization": "Bearer " + access_token
+            },
             success: function (data) {
                 console.log(data);
                 // alert(data.status);
