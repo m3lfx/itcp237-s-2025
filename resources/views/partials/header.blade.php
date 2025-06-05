@@ -46,10 +46,11 @@
     </li>
     <li class="nav-link">
         
-         <a href="#">
+            <a href="{{url('/cart')}}"> 
             <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping Cart
-          
-        </a> <span class="badge badge-secondary itemCount"></span>
+           
+            <span class="badge badge-secondary itemCount"></span>
+        </a>
     </li>
     </ul>
     {{-- <form action="{{ route('search') }}" "form-inline my-2 my-lg-0" method="POST"> --}}

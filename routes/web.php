@@ -21,3 +21,4 @@ Route::view('/items', 'item.index');
 Route::view('/dashboard', 'dashboard.index');
 Route::view('/shop', 'shop.index');
 Route::view('/', 'home');
+Route::view('/cart', 'shop.cart');
