@@ -157,4 +157,11 @@ class ItemController extends Controller
             'orderId' => $order->orderinfo_id,
         ]);
     }
+
+    public function getItems()
+    {
+        $items = Item::withWhereHas('stock')->orderBy('item_id', 'DESC')->get();
+
+        return response()->json($items);
+    }
 }
